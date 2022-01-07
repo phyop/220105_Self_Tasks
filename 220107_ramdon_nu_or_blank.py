@@ -118,4 +118,13 @@ https://blog.csdn.net/weixin_44633882/article/details/103748747
 
 random.choice(列表) # 從列表中随机选取一个元素
 random.sample(列表, 取數) # 结果每次运行结果不同
+「4. 从numpy.ndarray中随机选取多个元素」 -> 可以參考，但自己想怎麼寫，會比看他的code有效率
+"""
+
+------------------------------
+
+"""
+《Dataframe.to_csv() 、 writer.writerows()》
+https://www.delftstack.com/zh-tw/howto/python/python-write-array-to-csv/
+
 """
