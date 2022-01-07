@@ -11,6 +11,7 @@ np.savetxt輸出
 
 """
 《numpy - 輸出txt》
+import numpy as np
 a = np.array([[1,4,2],[7,9,4],[0,6,2]])
 np.savetxt('test.csv', a, delimiter=',') # 1.000000000000000000e+00
 np.savetxt('test.csv', a, delimiter=',',fmt='%f') 1.00000
@@ -127,4 +128,20 @@ random.sample(列表, 取數) # 结果每次运行结果不同
 《Dataframe.to_csv() 、 writer.writerows()》
 https://www.delftstack.com/zh-tw/howto/python/python-write-array-to-csv/
 
+# Dataframe.to_csv(path, sep,...)
+df = pandas.DataFrame(myarray)
+df.to_csv('myfile.csv')
+
+# csv.writer.writerows(rows) 
+import csv
+a = numpy.array([[1,4,2],[7,9,4],[0,6,2]])
+with open('myfile.csv', 'w', newline='') as file: # file是檔案物件
+    mywriter = csv.writer(file, delimiter=',') # mywriter是csv物件
+    mywriter.writerows(a)
+
+# csv.reader(file)
+with open('myfile.csv', 'r', newline='') as file:
+  myreader = csv.reader(file, delimiter=',') # csv要去獲取檔案物件，才能變成cvs物件
+  for rows in myreader:
+    print(rows)
 """
