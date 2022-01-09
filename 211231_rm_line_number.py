@@ -12,10 +12,11 @@ f_in = open(path_in,'r',encoding="utf-8")
 f_out = open(path_out,'w',encoding="utf-8")
 lines = f_in.readlines()
 for line in lines:
-    result = re.sub('^\d+\s', '', line)
-    print(result)
-    if result:
-        f_out.writelines(result+"\n")
+    line = line.strip()
+    line = re.sub('^\d+', '', line)
+    line = line.strip()
+    f_out.writelines(line+"\n")
+    # . 單一字元   ？ 0或1次   * 0~多次   + 1~多次   .* 任意字元 0~多次
 f_in.close()
 f_out.close()
     
