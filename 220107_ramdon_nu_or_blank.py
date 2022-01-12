@@ -1,14 +1,42 @@
+#! /Library/Frameworks/Python.framework/Versions/3.10/bin/python3
 # 在2*100的表格中，隨意產生數值或是空白，輸出csv檔案
 
 import numpy as np
 import random
 
-a = 100*np.random.random((10,2))
-a = np.floor(a)
-# 隨機取得xx%的索引位置 = random.sample(len(數據)， int（xx% x len(數據))）
-for i in range(a.shape[0]):
-    for j in range(a.shape[1]):
-        a[i][j]
+m, n = 10, 2 # np.array(m*n)
+digits = 100 # 幾位數 = len（10^N）-1
+probability = 0.2
+
+a = digits*np.random.random((m,n))
+a = np.floor(a) # 取整數
+# 隨機取得xx%的索引位置 = random.sample(列表， int（xx% x 列表長度)）
+index_0 = [i for i in range(a.shape[0])]
+index_1 = [i for i in range(a.shape[1])]
+choose_num = int(probability * m * n) # 其實len(index_0)就是a.shape[0]
+while True:
+    randIndex_0 = np.random.choice(index_0, choose_num) 
+    randIndex_1 = np.random.choice(index_1, choose_num) 
+    randIndex = list(zip(randIndex_0, randIndex_1))
+    for i in randIndex:
+        a[i[0],i[1]] = np.nan
+    if len(a[np.isnan(a)]) == choose_num: # 非Nan的个数 = len(a[~np.isnan(a)])
+        break
+print("probability = ", probability)
+print("number of nan = ", choose_num)
+print(a)
+
+# 計算nan的數量
+# count = 0
+# for i in range(a.shape[0]):
+#     for j in range(a.shape[1]):
+#         if a[j,i][a[j,i] != a[j,i]]:  # workable， but deprecated
+#             count += 1
+# print('count = ',count)
+
+
+
+
 
 """
 思考解法：
@@ -21,6 +49,17 @@ np.savetxt輸出
 ############################################
 
 """
+《隨機抽取》
+https://blog.csdn.net/DSTJWJW/article/details/90667570
+
+random.sample() 和 numpy.random.choice() 的优点都是可以指定抽样的个数，
+一次性从列表中不重复地抽样出指定个数的元素，
+其中 random.sample()默认就是不重复抽样（不放回的抽样），
+而numpy.random.choice()默认是可以重复抽样，
+要想不重复地抽样，需要设置replace参数为False。
+
+当数量较少的时候，random.sample() 用时非常少，而numpy.random.choice()则很长；
+当抽样数量很大的时候，numpy.random.choice()几乎不变，而random.sample() 用时变长。
 
 """
 
@@ -182,7 +221,7 @@ random.sample(列表, 取數) # 结果每次运行结果不同
 data = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 label = [0, 1, 2, 3, 4, 5, 6, 7]
 sample_num = int(0.5 * len(data)) # 假设取50%的数据
-# 隨機取得xx%的索引位置 = random.sample(len(數據)， int（xx% x len(數據))）
+# 隨機取得xx%的索引位置 = random.sample(列表， int（xx% x 列表長度)）
 sample_list = [i for i in range(len(data))] # [0, 1, 2, 3, 4, 5, 6, 7]
 sample_list = random.sample(sample_list, sample_num) #随机选取出了 [3, 4, 2, 0]
 sample_data = [data[i] for i in sample_list] # ['d', 'e', 'c', 'a']
