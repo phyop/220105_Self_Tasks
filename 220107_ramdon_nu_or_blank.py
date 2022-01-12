@@ -1,13 +1,71 @@
 # 在2*100的表格中，隨意產生數值或是空白，輸出csv檔案
 
+import numpy as np
+import random
+
+a = 100*np.random.random((10,2))
+a = np.floor(a)
+# 隨機取得xx%的索引位置 = random.sample(len(數據)， int（xx% x len(數據))）
+for i in range(a.shape[0]):
+    for j in range(a.shape[1]):
+        a[i][j]
+
 """
 思考解法：
-用numpy產生2*100的ndarray
-先全部填入亂數 -> 怎麼設亂數？
-然後再隨機選取30%的元素，設成空白(NA) -> 怎麼設NA？
+用numpy產生100*2的ndarray -> np.array([3,2],...)
+先全部填入亂數 -> random.random()
+然後再隨機選取30%的元素，設成空白(NA) -> np.nan
 np.savetxt輸出
 """
 
+############################################
+
+"""
+
+"""
+
+############################################
+
+"""
+https://www.itread01.com/content/1553930535.html
+提取隨機數組中的整數部分
+print (np.trunc(Z))
+print (np.floor(Z))
+print (Z.astype(int))
+"""
+
+############################################
+
+"""
+《np.nan》
+https://reurl.cc/AKkGzY
+
+bool(np.nan != np.nan)
+#返回 True
+#在numpy中每個nan皆為獨特的存在
+
+bool（a!=a） (同 np.isnan(a))
+僅有nan與nan不相等
+因此nan位置會為True 其餘返回False
+
+a=np.array([1,2,3,4,5,6],dtype=float).reshape(2,3) # nan為float 因此需定義類型
+a[1,1]=np.nan # 創建一含nan 數組
+result=np.count_nonzero(a!=a) # 計算數組中不為0的數量
+# 同result=np.count_nonzero(np.isnan(a))
+# 計算nan數量
+
+《將某數組中的nan替換為該column 平均值方法》
+a[a != a] =10 # 即可將nan替換為10
+valid = a[a == a] # 回傳所有不為nan的值
+
+for i in range(a.shape[1]):
+    if a[:,i][a[:,i] != a[:,i]]: # 如果是nan，則用平均值去取代
+    # 就是a[a!=a]的操作，只不過把a改成了a[:,i]
+        group_mean= a[:,i][a[:,i] == a[:,i]].mean() # a[a == a] 將非nan值取平均
+        a[:,i][a[:,i] != a[:,i]] = group_mean
+"""
+
+############################################
 
 """
 《numpy - 輸出txt》
@@ -23,7 +81,7 @@ footer - 將在文件末尾寫入的字符串。
 comments - 將前綴到 header 和 footer 字符串的字符串，將它們標記爲註釋。默認值:’ # '，如numpy.loadtxt所期望的那樣。
 """
 
----------------------------
+############################################
 
 """
 《savetxt - 三維破解法》
@@ -47,6 +105,7 @@ with open('test.txt', 'w') as outfile:
 但是，我們的目標是清晰易讀，同時仍然可以輕鬆地用. 因此，我們可以更詳細一些，並使用註釋掉的行來區分切片。默認情況下，將忽略以#（或kwarg指定的任何字符）開頭的任何行。
 
 import numpy as np
+import random
 
 # Generate some test data
 data = np.arange(200).reshape((4,5,10))
@@ -111,7 +170,7 @@ new_data = new_data.reshape((4,5,10))
 assert np.all(new_data == data)
 """
 
-------------------------------
+############################################
 
 """
 《随机选择list或array中n个元素》
@@ -119,10 +178,20 @@ https://blog.csdn.net/weixin_44633882/article/details/103748747
 
 random.choice(列表) # 從列表中随机选取一个元素
 random.sample(列表, 取數) # 结果每次运行结果不同
+
+data = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+label = [0, 1, 2, 3, 4, 5, 6, 7]
+sample_num = int(0.5 * len(data)) # 假设取50%的数据
+# 隨機取得xx%的索引位置 = random.sample(len(數據)， int（xx% x len(數據))）
+sample_list = [i for i in range(len(data))] # [0, 1, 2, 3, 4, 5, 6, 7]
+sample_list = random.sample(sample_list, sample_num) #随机选取出了 [3, 4, 2, 0]
+sample_data = [data[i] for i in sample_list] # ['d', 'e', 'c', 'a']
+sample_label = [label[i] for i in label] # [3, 4, 2, 0]
+
 「4. 从numpy.ndarray中随机选取多个元素」 -> 可以參考，但自己想怎麼寫，會比看他的code有效率
 """
 
-------------------------------
+############################################
 
 """
 《Dataframe.to_csv() 、 writer.writerows()》
