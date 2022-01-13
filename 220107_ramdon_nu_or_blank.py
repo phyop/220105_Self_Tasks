@@ -1,5 +1,13 @@
 #! /Library/Frameworks/Python.framework/Versions/3.10/bin/python3
+
 # 在2*100的表格中，隨意產生數值或是空白，輸出csv檔案
+"""
+思考解法：
+用numpy產生100*2的ndarray -> np.array([3,2],...)
+先全部填入亂數 -> random.random()
+然後再隨機選取30%的元素，設成空白(NA) -> np.nan
+np.savetxt輸出
+"""
 
 import numpy as np
 import random
@@ -28,6 +36,9 @@ print("probability = ", probability)
 print("number of nan = ", choose_num)
 print(a)
 
+np.savetxt('test.csv', a, delimiter=',',fmt='%f')
+
+
 # 計算nan的數量
 # count = 0
 # for i in range(a.shape[0]):
@@ -36,17 +47,6 @@ print(a)
 #             count += 1
 # print('count = ',count)
 
-
-
-
-
-"""
-思考解法：
-用numpy產生100*2的ndarray -> np.array([3,2],...)
-先全部填入亂數 -> random.random()
-然後再隨機選取30%的元素，設成空白(NA) -> np.nan
-np.savetxt輸出
-"""
 
 ############################################
 
