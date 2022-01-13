@@ -18,6 +18,8 @@ while True:
     randIndex_0 = np.random.choice(index_0, choose_num) 
     randIndex_1 = np.random.choice(index_1, choose_num) 
     randIndex = list(zip(randIndex_0, randIndex_1))
+    # 因為zip結果是回傳迭代器，而for可以直接從迭代器取出，所以上面這樣寫也可以
+    # for i in zip(randIndex_0, randIndex_1):
     for i in randIndex:
         a[i[0],i[1]] = np.nan
     if len(a[np.isnan(a)]) == choose_num: # 非Nan的个数 = len(a[~np.isnan(a)])
@@ -49,6 +51,71 @@ np.savetxt輸出
 ############################################
 
 """
+《map》
+https://www.runoob.com/python/python-func-map.html
+
+>>> list(map(square, [1,2,3,4,5]))   # 使用 list() 转换为列表
+[1, 4, 9, 16, 25]
+>>> list(map(lambda x: x ** 2, [1, 2, 3, 4, 5]))   # 使用 lambda 匿名函数
+[1, 4, 9, 16, 25]
+# 提供了两个列表，对相同位置的列表数据进行相加
+>>> list(map(lambda x, y: x + y, [1, 3, 5, 7, 9], [2, 4, 6, 8, 10]))
+[3, 7, 11, 15, 19]
+
+>>> def square(x) :         # 计算平方数
+...     return x ** 2
+# 等同 「lambda x: x ** 2」 ， lambda就是留下 「參數：內容」 就好了
+
+>>> array = [[1, 4], [2, 5], [3, 6]];
+>>> print(*array);
+[1, 4] [2, 5] [3, 6]
+>>> map(list, zip(*array)); # map(函數,取值1,取值2,...)
+[[1, 2, 3], [4, 5, 6]]
+>>> list(map(lambda x,y : [x,y], [1,3,5,7,9], [2,4,6,8,10]))
+[[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
+
+dict預設值
+# 用get()方法,是为了在字典中如果没有找到key时,就返回預設值
+字典.get(key,預設值)()
+
+filter
+>>> res2 = filter(lambda n: n > 5, range(10))
+>>> lt = list(res2)
+>>> print(lt) 
+[6, 7, 8, 9]
+
+"""
+
+############################################
+
+"""
+《zip》
+# 若要以長度最長的 list 為準，可以改用 zip_longest，而長度不足的 list 則會以 None 補足:
+from itertools import zip_longest
+for x,y in zip_longest(names2, values2)
+
+# 假設我們有兩個 lists 分別存放鍵與值的資料：
+dict(zip(keys, values))
+
+# 若在 Python 2 中，zip 會傳回 tuples 組成的 list：
+[('A', 11), ('B', 23), ('C', 46)]
+# 若是在 Python 3 中，則會傳回一個 tuples 的迭代器（iterator）：
+<zip object at 0x7f9fc4024b08>
+
+# 打包成 Tuples 組成的 List
+zippedList = list(zip(names, values))
+# 轉回原來的兩個 Lists
+n, v = zip(*zippedList)
+
+(Python 3 的zip是回傳迭代器）
+而若在 Python 2 中也想使用迭代器的話，可以改用這種方式：
+import itertools
+for x, y in itertools.izip(names, values):
+"""
+
+############################################
+
+"""
 《隨機抽取》
 https://blog.csdn.net/DSTJWJW/article/details/90667570
 
@@ -66,8 +133,9 @@ random.sample() 和 numpy.random.choice() 的优点都是可以指定抽样的�
 ############################################
 
 """
+《提取隨機數組中的整數部分》
 https://www.itread01.com/content/1553930535.html
-提取隨機數組中的整數部分
+
 print (np.trunc(Z))
 print (np.floor(Z))
 print (Z.astype(int))
