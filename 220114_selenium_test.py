@@ -5,16 +5,24 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from datetime import datetime
+
+url_wenqian = "https://reurl.cc/9O5jpx"
+target_string = "歐元問世風雨廿年 挺過金融風暴與歐債危機 TVBS文茜的世界周報-歐洲版 20220108 X 富蘭克林‧國民的基金"
 
 s=Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=s)
 driver.maximize_window()
-driver.get('https://www.google.com')
-driver.find_element(By.NAME, 'q').send_keys('Yasser Khalil')
+driver.get(url_wenqian)
+driver.find_element(By.LINK_TEXT, target_string).click()
+
+now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+driver.save_screenshot('login-%s.png' % now)
 
 #############################################3
-《V1》
+
 """
+《V1》
 from selenium import webdriver
 import selenium
 
@@ -40,5 +48,25 @@ http://chromedriver.chromium.org/
 下載好之後，會是一個壓縮檔，解壓縮之後，
 點開 Finder，按「command+shift+G」，這個指令可以開啟隱藏資料夾，
 然後把chromedriver這個Unix執行檔放到「/usr/local/bin」，資料夾下。
+"""
 
+"""
+
+$ open -a Photos test.jpg 
+import test.jpg 到 Photos
+不過要先安裝Pixelmator
+
+>>> from selenium import webdriver
+>>> now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+>>> driver.save_screenshot('login-%s.png' % now)
+
+>>> from subprocess import call
+>>> call(["screencapture", "screenshot.jpg"])   # full screen
+>>> call(["screencapture", "-i", "/Users/user/Documents/screenshot.jpg"])
+>>> call(["screencapture", "-R 100,100,500,500", "screenshot.jpg"]) # partial screen
+
+部分截圖
+$ screencapture -R100,100,500,500 asdf.png
+# pixels: (500-100)x(500-100) 
+# file name: asdf.png
 """
