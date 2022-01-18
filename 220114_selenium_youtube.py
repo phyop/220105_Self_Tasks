@@ -13,7 +13,7 @@ import json
 
 # 自定變數
 url_wenqian = "https://reurl.cc/9O5jpx"
-file_json = "210118_youtube_nameValue.json"
+cookie_json = "210118_youtube_nameValue.json"
 
 def chrome_get(url):
     # 用Chrome當driver，打開url
@@ -21,26 +21,26 @@ def chrome_get(url):
     driver = webdriver.Chrome(service=s)
     driver.get(url)
     driver.maximize_window()
-    sleep(3)
+    sleep(2)
     return driver
 
 def load_json(file_json):
     # 讀取json檔的cookie
     with open(file_json) as f:
         cookies = json.load(f)
-    sleep(3)
+    sleep(2)
     return cookies
 
 def add_cookies(driver, cookies):
     # 載入cookie到driver
     for cookie in cookies:
         driver.add_cookie(cookie)
-    sleep(3)
+    sleep(2)
     driver.refresh() # 重新整理頁面
 
 if __name__ == '__main__':
     driver = chrome_get(url_wenqian)
-    cookies = load_json(file_json)
+    cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
 
 #################################################
