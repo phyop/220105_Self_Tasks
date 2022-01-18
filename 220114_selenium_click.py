@@ -11,31 +11,36 @@ import os
 import json
 # pip install webdriver-manager
 
+# 自定變數
 url_wenqian = "https://reurl.cc/9O5jpx"
 cookie_json = "210118_youtube_nameValue.json"
 
-# 用Chrome當driver，打開url
-s=Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=s)
-driver.maximize_window()
-driver.get(url_wenqian)
-sleep(2)
+def chrome_get(url):
+    # 用Chrome當driver，打開url
+    s=Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=s)
+    driver.get(url)
+    driver.maximize_window()
+    sleep(3)
 
-# 讀取cookie的json檔
-with open(cookie_json) as f:
-    cookies = json.load(f)
-sleep(2)
+def load_json(json_file):
+    # 讀取json檔的cookie
+    with open(json_file) as f:
+        cookies = json.load(f)
+    sleep(3)
+    return cookies
 
-# 載入cookie到driver
-for cookie in cookies:
-    driver.add_cookie(cookie)
-driver.refresh() # 重新整理頁面
-sleep(3)
+def add_cookies(cookies):
+    # 載入cookie到driver
+    for cookie in cookies:
+        driver.add_cookie(cookie)
+    sleep(3)
+    driver.refresh() # 重新整理頁面
 
-
-
-# if __name__ == '__main__':
-#     pass
+if __name__ == '__main__':
+    chrome_get(url_wenqian)
+    cookies = load_json(cookie_json)
+    add_cookies(cookies)
 
 #################################################
 
