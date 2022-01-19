@@ -11,17 +11,12 @@ import os
 import json
 # pip install webdriver-manager
 
-# 自定變數
-url_wenqian = "https://reurl.cc/9O5jpx"
-cookie_json = "210118_youtube_nameValue.json"
-
 def chrome_get(url):
     # 用Chrome當driver，打開url
     s=Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=s)
     driver.get(url)
     driver.maximize_window()
-    sleep(2)
     return driver
 
 def load_json(file_json):
@@ -38,11 +33,19 @@ def add_cookies(driver, cookies):
     sleep(2)
     driver.refresh() # 重新整理頁面
 
+def scroll_down(driver,times):
+    for i in range(times):
+        driver.execute_script(f"window.scrollBy(0,{3000*times})")
+        sleep(1)
+
 if __name__ == '__main__':
+    url_wenqian = "https://reurl.cc/9O5jpx"
+    cookie_json = "210118_youtube_nameValue.json"
     driver = chrome_get(url_wenqian)
     cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
-
+    scroll_down(driver,10)
+    
 #################################################
 
 """ 
