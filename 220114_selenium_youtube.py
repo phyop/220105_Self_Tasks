@@ -44,16 +44,13 @@ if __name__ == '__main__':
     driver = chrome_get(url_wenqian)
     cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
-    scroll_down(driver,10)
-    
+    # scroll_down(driver,5)
+
 #################################################
 
 """ 
-# 定義變數
-app = "Preview.app"
-target_string = "歐元問世風雨廿年 挺過金融風暴與歐債危機 TVBS文茜的世界周報-歐洲版 20220108 X 富蘭克林‧國民的基金"
-
 # 搜尋標題&點擊
+target_string = "歐元問世風雨廿年 挺過金融風暴與歐債危機 TVBS文茜的世界周報-歐洲版 20220108 X 富蘭克林‧國民的基金"
 driver.find_element(By.LINK_TEXT, target_string).click()
 sleep(3)
 # 截圖
@@ -64,7 +61,11 @@ cmd_save_png = f'open sean-{now}.png'
 os.system(cmd_save_png)
 sleep(3)
 # kill圖
+app = "Preview.app"
 cmd_close_png = f'kill $(ps aux | grep {app} | tr -s ' ' | cut -d ' ' -f 2)'
 os.system(cmd_close_png)
 driver.quit()
+# 點擊第i個影片
+title = f"//ytd-grid-renderer/div[1]/ytd-grid-video-renderer[{i}]//h3/a"
+driver.find_element(By.XPATH, title).click()
 """
