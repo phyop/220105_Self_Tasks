@@ -9,6 +9,7 @@ from datetime import datetime
 from time import sleep
 import os
 import json
+from selenium.webdriver.common.action_chains import ActionChains
 # pip install webdriver-manager
 
 def chrome_get(url):
@@ -23,28 +24,37 @@ def load_json(file_json):
     # 讀取json檔的cookie
     with open(file_json) as f:
         cookies = json.load(f)
-    sleep(2)
+    sleep(1)
     return cookies
 
 def add_cookies(driver, cookies):
     # 載入cookie到driver
     for cookie in cookies:
         driver.add_cookie(cookie)
-    sleep(2)
+    sleep(1)
     driver.refresh() # 重新整理頁面
 
 def scroll_down(driver,times):
     for i in range(times):
-        driver.execute_script(f"window.scrollBy(0,{3000*times})")
+        driver.execute_script(f"window.scrollBy(0,{100*times})")
         sleep(1)
+
+def click_hidden_menu(driver, title_xpath, hidden_menu_xpath):
+    scroll_down(driver,1)
+    title = driver.find_element(By.XPATH, title_xpath)
+    hidden_menu = driver.find_element(By.XPATH, hidden_menu_xpath)
+    ActionChains(driver).move_to_element(title).click(hidden_menu).perform()
 
 if __name__ == '__main__':
     url_wenqian = "https://reurl.cc/9O5jpx"
     cookie_json = "210118_youtube_nameValue.json"
+    title_xpath = "//ytd-grid-video-renderer[1]//h3/a"
+    hidden_menu_xpath = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
+    
     driver = chrome_get(url_wenqian)
     cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
-    # scroll_down(driver,5)
+    click_hidden_menu(driver, title_xpath, hidden_menu_xpath)
 
 #################################################
 
