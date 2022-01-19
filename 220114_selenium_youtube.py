@@ -39,22 +39,29 @@ def scroll_down(driver,times):
         driver.execute_script(f"window.scrollBy(0,{100*times})")
         sleep(1)
 
-def click_hidden_menu(driver, title_xpath, hidden_menu_xpath):
+def add2_play_list(driver, title, hidden_menu, save2, play_list):
     scroll_down(driver,1)
-    title = driver.find_element(By.XPATH, title_xpath)
-    hidden_menu = driver.find_element(By.XPATH, hidden_menu_xpath)
+    title = driver.find_element(By.XPATH, title)
+    hidden_menu = driver.find_element(By.XPATH, hidden_menu)
     ActionChains(driver).move_to_element(title).click(hidden_menu).perform()
+    sleep(1)
+    driver.find_element(By.XPATH, save2).click()
+    sleep(1)
+    driver.find_element(By.XPATH, play_list).click()
 
+    
 if __name__ == '__main__':
     url_wenqian = "https://reurl.cc/9O5jpx"
     cookie_json = "210118_youtube_nameValue.json"
-    title_xpath = "//ytd-grid-video-renderer[1]//h3/a"
-    hidden_menu_xpath = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
-    
+    title = "//ytd-grid-video-renderer[1]//h3/a"
+    hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
+    save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
+    play_list = "//ytd-playlist-add-to-option-renderer[2]"
+
     driver = chrome_get(url_wenqian)
     cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
-    click_hidden_menu(driver, title_xpath, hidden_menu_xpath)
+    add2_play_list(driver, title, hidden_menu, save2, play_list)
 
 #################################################
 
