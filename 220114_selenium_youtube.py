@@ -39,29 +39,32 @@ def scroll_down(driver,times):
         driver.execute_script(f"window.scrollBy(0,{100*times})")
         sleep(1)
 
-def add2_play_list(driver, title, hidden_menu, save2, play_list):
+def add2list(driver, save2, play_list):
     scroll_down(driver,1)
-    title = driver.find_element(By.XPATH, title)
-    hidden_menu = driver.find_element(By.XPATH, hidden_menu)
-    ActionChains(driver).move_to_element(title).click(hidden_menu).perform()
-    sleep(1)
-    driver.find_element(By.XPATH, save2).click()
-    sleep(1)
-    driver.find_element(By.XPATH, play_list).click()
-
+    for i in range(1,4):
+        title = f"//ytd-grid-video-renderer[{i}]//h3/a"
+        hidden_menu = f"//ytd-grid-video-renderer[{i}]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
+        title = driver.find_element(By.XPATH, title)
+        hidden_menu = driver.find_element(By.XPATH, hidden_menu)
+        ActionChains(driver).move_to_element(title).click(hidden_menu).perform()
+        sleep(1)
+        driver.find_element(By.XPATH, save2).click()
+        sleep(1)
+        driver.find_element(By.XPATH, play_list).click()
+        sleep(1)
+        ActionChains(driver).move_to_element_with_offset(play_list,200,200).click().perform()
+        sleep(1)
     
 if __name__ == '__main__':
     url_wenqian = "https://reurl.cc/9O5jpx"
     cookie_json = "210118_youtube_nameValue.json"
-    title = "//ytd-grid-video-renderer[1]//h3/a"
-    hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
     save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
     play_list = "//ytd-playlist-add-to-option-renderer[2]"
-
+    
     driver = chrome_get(url_wenqian)
     cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
-    add2_play_list(driver, title, hidden_menu, save2, play_list)
+    add2list(driver, save2, play_list)
 
 #################################################
 
