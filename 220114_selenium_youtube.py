@@ -10,6 +10,7 @@ from time import sleep
 import os
 import json
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 # pip install webdriver-manager
 
 def chrome_get(url):
@@ -36,35 +37,61 @@ def add_cookies(driver, cookies):
 
 def scroll_down(driver,times):
     for i in range(times):
-        driver.execute_script(f"window.scrollBy(0,{100*times})")
+        driver.execute_script(f"window.scrollBy(0,{50*times})")
         sleep(1)
 
-def add2list(driver, save2, play_list):
+def add2list(driver, video_ls, hidden_menu_ls, save2, play_list, videos):
     scroll_down(driver,1)
-    for i in range(1,4):
-        title = f"//ytd-grid-video-renderer[{i}]//h3/a"
-        hidden_menu = f"//ytd-grid-video-renderer[{i}]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
-        title = driver.find_element(By.XPATH, title)
-        hidden_menu = driver.find_element(By.XPATH, hidden_menu)
-        ActionChains(driver).move_to_element(title).click(hidden_menu).perform()
-        sleep(1)
-        driver.find_element(By.XPATH, save2).click()
-        sleep(1)
-        driver.find_element(By.XPATH, play_list).click()
-        sleep(1)
-        ActionChains(driver).move_to_element_with_offset(play_list,200,200).click().perform()
-        sleep(1)
-    
+    i = 0
+    while i < videos:
+        try:
+            video = driver.find_element(By.XPATH, video_ls[i])
+            hidden_menu = driver.find_element(By.XPATH, hidden_menu_ls[i])
+            ActionChains(driver).move_to_element(video).click(hidden_menu).perform()
+            sleep(1)
+            driver.find_element(By.XPATH, save2).click()
+            sleep(1)
+            driver.find_element(By.XPATH, play_list).click()
+            sleep(1)
+            ActionChains(driver).move_by_offset(50,50).click().perform()
+            sleep(1)
+            i += 1
+        except NoSuchElementException:
+            scroll_down(driver,1)
+
+def videos_xpath(video_ls, video, videos):
+    prefix = video.split("[",1)[0]
+    suffix = video.split("]",1)[1]
+    for i in range(videos):
+        video = prefix + f'[{i}]' + suffix
+        video_ls.append(video)
+    return video_ls
+
 if __name__ == '__main__':
     url_wenqian = "https://reurl.cc/9O5jpx"
     cookie_json = "210118_youtube_nameValue.json"
+    video_ls = []
+    hidden_menu_ls= []
+    video = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'TVBS文茜的')]"
+    hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
     save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
     play_list = "//ytd-playlist-add-to-option-renderer[2]"
-    
+    videos = 20
+
+    # 加入cookie
     driver = chrome_get(url_wenqian)
-    cookies = load_json(cookie_json)
-    add_cookies(driver, cookies)
-    add2list(driver, save2, play_list)
+    # cookies = load_json(cookie_json)
+    # add_cookies(driver, cookies)
+
+    # 儲存影片至播放清單
+    video_ls = videos_xpath(video_ls, video, videos)
+    hidden_menu_ls = videos_xpath(hidden_menu_ls, hidden_menu, videos)
+    # for video in video_ls:
+    #     print(video)
+    # print()
+    # for hidden_menu in hidden_menu_ls:
+    #     print(hidden_menu)
+    add2list(driver, video_ls, hidden_menu_ls, save2, play_list, videos)
 
 #################################################
 
@@ -86,6 +113,6 @@ cmd_close_png = f'kill $(ps aux | grep {app} | tr -s ' ' | cut -d ' ' -f 2)'
 os.system(cmd_close_png)
 driver.quit()
 # 點擊第i個影片
-title = f"//ytd-grid-renderer/div[1]/ytd-grid-video-renderer[{i}]//h3/a"
-driver.find_element(By.XPATH, title).click()
+video = f"//ytd-grid-renderer/div[1]/ytd-grid-video-renderer[{i}]//h3/a"
+driver.find_element(By.XPATH, video).click()
 """
