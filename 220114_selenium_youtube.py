@@ -40,10 +40,11 @@ def scroll_down(driver,times):
         driver.execute_script(f"window.scrollBy(0,{50*times})")
         sleep(1)
 
-def add2list(driver, video_ls, hidden_menu_ls, save2, play_list, videos):
-    scroll_down(driver,1)
+def add2list(driver, video_ls, hidden_menu_ls, save2, play_list, video_number_in_channel):
+    scroll_down(driver,2)
     i = 0
-    while i < videos:
+    count_except = 0
+    while i < len(video_ls):
         try:
             video = driver.find_element(By.XPATH, video_ls[i])
             hidden_menu = driver.find_element(By.XPATH, hidden_menu_ls[i])
@@ -53,16 +54,20 @@ def add2list(driver, video_ls, hidden_menu_ls, save2, play_list, videos):
             sleep(1)
             driver.find_element(By.XPATH, play_list).click()
             sleep(1)
-            ActionChains(driver).move_by_offset(50,50).click().perform()
+            ActionChains(driver).move_by_offset(30,30).click().perform()
             sleep(1)
             i += 1
         except NoSuchElementException:
             scroll_down(driver,1)
-
-def videos_xpath(video_ls, video, videos):
+            count_except += 1
+            if count_except >= 5: # 如果scroll幾次還是找不到這個序號的影片
+                i += 1 # 那就跳到下一支影片
+                count_except == 0
+            
+def videos_xpath(video_ls, video, video_number_in_channel):
     prefix = video.split("[",1)[0]
     suffix = video.split("]",1)[1]
-    for i in range(videos):
+    for i in range(8, video_number_in_channel+1):
         video = prefix + f'[{i}]' + suffix
         video_ls.append(video)
     return video_ls
@@ -76,22 +81,17 @@ if __name__ == '__main__':
     hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
     save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
     play_list = "//ytd-playlist-add-to-option-renderer[2]"
-    videos = 20
+    video_number_in_channel = 12
 
     # 加入cookie
     driver = chrome_get(url_wenqian)
-    # cookies = load_json(cookie_json)
-    # add_cookies(driver, cookies)
+    cookies = load_json(cookie_json)
+    add_cookies(driver, cookies)
 
     # 儲存影片至播放清單
-    video_ls = videos_xpath(video_ls, video, videos)
-    hidden_menu_ls = videos_xpath(hidden_menu_ls, hidden_menu, videos)
-    # for video in video_ls:
-    #     print(video)
-    # print()
-    # for hidden_menu in hidden_menu_ls:
-    #     print(hidden_menu)
-    add2list(driver, video_ls, hidden_menu_ls, save2, play_list, videos)
+    video_ls = videos_xpath(video_ls, video, video_number_in_channel)
+    hidden_menu_ls = videos_xpath(hidden_menu_ls, hidden_menu, video_number_in_channel)
+    add2list(driver, video_ls, hidden_menu_ls, save2, play_list, video_number_in_channel)
 
 #################################################
 
