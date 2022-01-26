@@ -77,6 +77,8 @@ if __name__ == '__main__':
     # url_wenqian = "https://reurl.cc/9O5jpx"
     # url_halaw = "https://reurl.cc/5GMp0q"
     # url_fanqi = "https://reurl.cc/dX7e0g"
+    # url_fanqi = "https://reurl.cc/2DW8Dm"
+    # url_qiongshe = "https://reurl.cc/2DW8Dm"
     cookie_json = "210126_youtube.json"
     video_ls = []
     hidden_menu_ls= []
@@ -84,6 +86,7 @@ if __name__ == '__main__':
     # video_wenqian = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'TVBS文茜的')]"
     # video_halaw = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'視在哈LAW')]"
     # video_fanqi = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[1]/h3/a"
+    # video_qiongshe = "//ytd-grid-video-renderer[18]/div[1]/div[1]/div[1]/h3/a"
     hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
     save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
     play_list = "//ytd-playlist-add-to-option-renderer[2]"
