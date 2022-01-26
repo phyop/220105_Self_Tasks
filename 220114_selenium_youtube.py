@@ -73,18 +73,24 @@ def videos_xpath(video_ls, video, video_number_in_channel):
     return video_ls
 
 if __name__ == '__main__':
-    url_wenqian = "https://reurl.cc/9O5jpx"
-    cookie_json = "210118_youtube_nameValue.json"
+    url = "https://reurl.cc/dX7e0g"
+    # url_wenqian = "https://reurl.cc/9O5jpx"
+    # url_halaw = "https://reurl.cc/5GMp0q"
+    # url_fanqi = "https://reurl.cc/dX7e0g"
+    cookie_json = "210126_youtube.json"
     video_ls = []
     hidden_menu_ls= []
     video = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'TVBS文茜的')]"
+    # video_wenqian = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'TVBS文茜的')]"
+    # video_halaw = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'視在哈LAW')]"
+    # video_fanqi = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[1]/h3/a"
     hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
     save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
     play_list = "//ytd-playlist-add-to-option-renderer[2]"
-    video_number_in_channel = 12
+    video_number_in_channel = 11
 
     # 加入cookie
-    driver = chrome_get(url_wenqian)
+    driver = chrome_get(url)
     cookies = load_json(cookie_json)
     add_cookies(driver, cookies)
 
