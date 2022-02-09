@@ -5,10 +5,14 @@
 import numpy as np
 import random
 
-a = list(np.random.randint(0,500,size=(20)))
-print(sorted(a))
-count = -1
-for i in range(501):
-    print(f"{i:3d}" ,end=' ') if i not in a else print(' ? ', end=' ')
-    count += 1
-    print() if count%10 == 0 else None
+def num_exclude(a, number):
+    count = -1
+    for i in range(number+1):
+        print(f"{i:3d}" ,end=' ') if i not in a else print('  ?', end=' ')
+        count += 1
+        print() if count%10 == 0 else None
+
+if __name__ == "__main__":
+    a = list(np.random.randint(0,500,size=(20)))
+    print(sorted(a))
+    num_exclude(a, 500)
