@@ -54,7 +54,7 @@ def add2list(driver, video_ls, hidden_menu_ls, save2, play_list, video_number_in
             sleep(1)
             driver.find_element(By.XPATH, play_list).click()
             sleep(1)
-            ActionChains(driver).move_by_offset(0,-30).click().perform()
+            ActionChains(driver).move_by_offset(30,30).click().perform()
             sleep(1)
             i += 1
         except NoSuchElementException:
@@ -73,24 +73,26 @@ def videos_xpath(video_ls, video, video_number_in_channel, video_1st):
     return video_ls
 
 if __name__ == '__main__':
-    url = "https://reurl.cc/2DW8Dm"
+    url = "https://reurl.cc/dX7e0g"
     # url_wenqian = "https://reurl.cc/9O5jpx"
+    # url_li4duan = "https://reurl.cc/qOp7WN"
     # url_halaw = "https://reurl.cc/5GMp0q"
     # url_fanqi = "https://reurl.cc/dX7e0g"
     # url_qiongshe = "https://reurl.cc/2DW8Dm"
-    cookie_json = "210126_youtube.json"
+    cookie_json = "210303_youtube.json"
     video_ls = []
     hidden_menu_ls= []
     video = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[1]/h3/a"
     # video_wenqian = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'TVBS文茜的')]"
+    # video_li4duan = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[1]/h3/a"
     # video_halaw = "//ytd-grid-video-renderer[1]//h3/a[contains(@aria-label,'視在哈LAW')]"
     # video_fanqi = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[1]/h3/a"
     # video_qiongshe = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[1]/h3/a"
     hidden_menu = "//ytd-grid-video-renderer[1]/div[1]/div[1]/div[2]/ytd-menu-renderer/yt-icon-button/button"
     save2 = "//ytd-menu-service-item-renderer[3]/tp-yt-paper-item/yt-formatted-string"
     play_list = "//ytd-playlist-add-to-option-renderer[2]"
-    video_1st = 3
-    video_number_in_channel = 7
+    video_1st = 2
+    video_number_in_channel = 100
 
     # 加入cookie
     driver = chrome_get(url)
